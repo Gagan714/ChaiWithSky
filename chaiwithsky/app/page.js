@@ -17,7 +17,7 @@ export default function Home() {
       <div className="flex flex-row justify-around w-full items-center">
         <div className="flex flex-col gap-2 justify-center items-center">
         <div>
-          <Image className=" bg-slate-300 rounded-full" src="/man.jpg" alt="" width={80} height={80}/>
+          <Image className=" rounded-full" src="/man.jpg" alt="" width={80} height={80}/>
         </div>
         <div>Fund yourself</div>
         </div>
@@ -29,7 +29,7 @@ export default function Home() {
         </div>
         <div className="flex flex-col gap-2 justify-center items-center">
         <div>
-          <Image className=" bg-white rounded-full" src="/group.svg" alt="" width={80} height={80}/>
+          <Image className=" bg-slate-400 rounded-full" src="/group.svg" alt="" width={80} height={80}/>
         </div>
         <div>Fund yourself</div>
         </div>
