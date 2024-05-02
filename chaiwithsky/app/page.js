@@ -19,19 +19,22 @@ export default function Home() {
         <div>
           <Image className=" rounded-full" src="/man.jpg" alt="" width={80} height={80}/>
         </div>
-        <div>Fund yourself</div>
+        <div className="font-bold">Fans want to help</div>
+        <p>Your followers are Available to Support You</p>
         </div>
-        <div className="flex flex-col justify-center items-center">
+        <div className="flex flex-col gap-1 justify-center items-center">
         <div>
           <Image className="rounded-full" src="/Dollar.gif" alt="" width={80} height={80}/>
         </div>
-        <div>Fund yourself</div>
+        <div className="font-bold">Fans want to Contribute</div>
+        <p>Your followers are willing to Contribute Financially</p>
         </div>
         <div className="flex flex-col gap-2 justify-center items-center">
         <div>
           <Image className=" bg-slate-400 rounded-full" src="/group.svg" alt="" width={80} height={80}/>
         </div>
-        <div>Fund yourself</div>
+        <div className="font-bold">Followers want to collaborate</div>
+        <p>Your fans can collaborate with you</p>
         </div>
       </div>
     </div>
