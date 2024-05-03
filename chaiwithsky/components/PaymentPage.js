@@ -1,9 +1,17 @@
 "use client"
-import React from 'react'
+import React,{useState} from 'react'
 import Script from 'next/script'
+import { initiate } from '@/actions/useractions'
+import { useSession } from 'next-auth/react'
 
 const PaymentPage = ({username}) => {
-    const pay=(amount,orderId)=>{
+  const {data:session}=useSession()
+  const [paymentform, setpaymentform] = useState({})
+  const handlechange=(e)=>{
+    setpaymentform({...paymentform,[e.target.name]:e.target.value})
+  }
+    const pay=async  (amount)=>{
+      let a=await initiate(amount,username,paymentform)
             var options = {
                 "key": process.env.KEY_ID ,// Enter the Key ID generated from the Dashboard
                 "amount": amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -54,10 +62,10 @@ const PaymentPage = ({username}) => {
     <div className=" bg-slate-900 rounded-lg w-1/3">
       <div className="text-center font-bold text-xl mt-3 mb-5">Make a payment</div>
       <div className="flex flex-col items-center gap-2">
-        <input className="bg-slate-800 w-4/5 rounded-lg p-2 outline-none" type="text" placeholder="Enter Name"/>
-        <input className="bg-slate-800 w-4/5 rounded-lg p-2  outline-none" type="text" placeholder="Enter Message"/>
-        <input className="bg-slate-800 w-4/5 rounded-lg p-2 outline-none" type="text" placeholder="Enter Amount"/>
-        <button type="button" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-8 py-2 text-center me-2 mb-2">Pay</button>
+        <input name='name' onChange={handlechange} value={paymentform.name} className="bg-slate-800 w-4/5 rounded-lg p-2 outline-none" type="text" placeholder="Enter Name"/>
+        <input name='message' onChange={handlechange} value={paymentform.message} className="bg-slate-800 w-4/5 rounded-lg p-2  outline-none" type="text" placeholder="Enter Message"/>
+        <input name='amount' onChange={handlechange} value={paymentform.amount}  className="bg-slate-800 w-4/5 rounded-lg p-2 outline-none" type="text" placeholder="Enter Amount"/>
+        <button type="button" className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-8 py-2 text-center me-2 mb-2" onClick={()=>pay(1000)}>Pay</button>
       </div>
     </div>
   </div>
