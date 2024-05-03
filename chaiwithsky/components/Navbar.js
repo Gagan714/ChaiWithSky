@@ -22,7 +22,7 @@ const Navbar = () => {
                 <Link onClick={()=>setshowdropdown(!showdropdown)} href="/dashboard" className="block px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</Link>
               </li>
               <li>
-                <Link href="#" className="block px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white">Your Page</Link>
+                <Link onClick={()=>setshowdropdown(!showdropdown)} href={`/${session.user.name}`} className="block px-4 py-2 hover:bg-gray-800 dark:hover:bg-gray-600 dark:hover:text-white">Your Page</Link>
               </li>
               
             </ul>
