@@ -1,15 +1,28 @@
 "use client"
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import Script from 'next/script'
-import { initiate } from '@/actions/useractions'
+import { fetchpayment, initiate } from '@/actions/useractions'
 import { useSession } from 'next-auth/react'
+import { fetchuser } from '@/actions/useractions'
 
 const PaymentPage = ({username}) => {
   const {data:session}=useSession()
   const [paymentform, setpaymentform] = useState({})
+  const [currentUser, setcurrentUser] = useState({})
+  const [payments, setpayments] = useState([])
+  useEffect(() => {
+    getData()
+  }, [])
+  
   const handlechange=(e)=>{
     setpaymentform({...paymentform,[e.target.name]:e.target.value})
     console.log(paymentform)
+  }
+  const getData=async (params)=>{
+    let u= await fetchuser(username)
+    setcurrentUser(u)
+    let dbpayments=await fetchpayment(username)
+    setpayments(dbpayments)
   }
     const pay=async (amount)=>{
       let a=await initiate(amount,username,paymentform)
@@ -55,11 +68,16 @@ const PaymentPage = ({username}) => {
     <div className=" bg-slate-900 rounded-lg w-1/3">
       <div className="text-center font-bold text-xl my-3">Supporters</div> 
       <ul>
-        <div className="flex items-center ml-2">
-          <img width={30} src="avatar.png" alt=""/>
-        <li className=" my-3 mx-2">Gagan donated <span className="font-bold">30$</span> with a message "U r awesome bro"</li>
-        </div>
-      </ul>
+  {payments.map((p, i) => (
+    <li key={i} className="flex items-center ml-2">
+      <img width={30} src="avatar.png" alt="" />
+      <span className="my-3 mx-2">
+        {p.Name} donated <span className="font-bold">₹{p.amount/100}</span> with a message "{p.message}"
+      </span>
+    </li>
+  ))}
+</ul>
+
     </div>
     <div className=" bg-slate-900 rounded-lg w-1/3">
       <div className="text-center font-bold text-xl mt-3 mb-5">Make a payment</div>

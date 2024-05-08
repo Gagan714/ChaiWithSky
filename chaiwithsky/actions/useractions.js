@@ -15,3 +15,15 @@ export const initiate=async (amount,to_username,paymentform)=>{
     await Payment.create({oid:x.id,amount:amount,to_user:to_username,Name:paymentform.name,message:paymentform.message})
     return x
 }
+
+export const fetchuser=async (username)=>{
+    await connectDB()
+    let u=await User.findOne({username:username})
+    let user=u.toObject({flattenObjectIds:true})
+    return user
+}
+export const fetchpayment=async (username)=>{
+    await connectDB()
+    let p=await Payment.find({to_user:username}).sort({amount:-1}).lean()
+    return p
+}
