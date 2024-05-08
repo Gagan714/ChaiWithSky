@@ -27,3 +27,14 @@ export const fetchpayment=async (username)=>{
     let p=await Payment.find({to_user:username}).sort({amount:-1}).lean()
     return p
 }
+export const updateprofile=async (data,oldusername)=>{
+    await connectDB()
+    let ndata=Object.fromEntries(data)
+    if(oldusername!==ndata.username){
+        let u=await User.findOne({username:ndata.username})
+        if(u){
+            return {error:"username already exists"}
+        }
+    }
+    await User.updateOne({email:ndata.email},ndata)
+}

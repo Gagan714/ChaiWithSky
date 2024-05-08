@@ -1,7 +1,24 @@
 "use client"
-import React, { useState } from 'react';
-
+import React, { useState,useEffect } from 'react';
+import { useSession,signIn,signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { updateprofile,fetchuser } from '@/actions/useractions';
 const Dashboard = () => {
+  const {data:Session,update}=useSession()
+  const router=useRouter()
+  useEffect(() => {
+    if(!Session){
+      router.push('/login')
+    }else{
+      getData()
+    }
+    console.log(Session)
+  }, [router,Session])
+  const getData=async ()=>{
+    let u=await fetchuser(Session.user.name)
+    setFormData(u)
+  }
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -21,15 +38,15 @@ const Dashboard = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission here, e.g., send data to backend
-    console.log(formData);
+    update()
+    let a=updateprofile(e,Session.user.name)
+    alert("Profile updated")
   };
 
   return (
     <div className="max-w-md mx-auto">
       <h2 className="text-2xl font-bold mb-4">Welcome to your DashBoard</h2>
-      <form onSubmit={handleSubmit}>
+      <form action={handleSubmit}>
         <div className="mb-2">
           <label htmlFor="name" className="block mb-1 font-medium">Name</label>
           <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} className="w-full border border-gray-300 bg-black rounded-md py-1 px-3 focus:outline-none focus:border-blue-500" />
@@ -58,7 +75,7 @@ const Dashboard = () => {
           <label htmlFor="razorpaySecret" className="block mb-1 font-medium">Razorpay Secret</label>
           <input type="text" id="razorpaySecret" name="razorpay Secret" value={formData.razorPaySecret} onChange={handleChange} className="w-full border border-gray-300 bg-black rounded-md py-1 px-3 focus:outline-none focus:border-blue-500" />
         </div>
-        <button type="button" className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Submit</button>
+        <button type="submit" className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Submit</button>
       </form>
     </div>
   );
