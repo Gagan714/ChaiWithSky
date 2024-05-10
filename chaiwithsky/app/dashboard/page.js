@@ -3,6 +3,9 @@ import React, { useState,useEffect } from 'react';
 import { useSession,signIn,signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { updateprofile,fetchuser } from '@/actions/useractions';
+import { ToastContainer,toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+import { Bounce } from 'react-toastify'
 const Dashboard = () => {
   const {data:Session,update}=useSession()
   const router=useRouter()
@@ -40,10 +43,34 @@ const Dashboard = () => {
   const handleSubmit = (e) => {
     update()
     let a=updateprofile(e,Session.user.name)
-    alert("Profile updated")
+    toast('Profile Updated', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+      });
   };
 
   return (
+    <>
+    <ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"/>
+{/* Same as */}
+<ToastContainer />
     <div className="max-w-md mx-auto">
       <h2 className="text-2xl font-bold mb-4">Welcome to your DashBoard</h2>
       <form action={handleSubmit}>
@@ -78,6 +105,7 @@ const Dashboard = () => {
         <button type="submit" className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Submit</button>
       </form>
     </div>
+    </>
   );
 };
 

@@ -4,15 +4,36 @@ import Script from 'next/script'
 import { fetchpayment, initiate } from '@/actions/useractions'
 import { useSession } from 'next-auth/react'
 import { fetchuser } from '@/actions/useractions'
+import { useSearchParams } from 'next/navigation'
+import { ToastContainer,toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+import { Bounce } from 'react-toastify'
 
 const PaymentPage = ({username}) => {
   const {data:session}=useSession()
   const [paymentform, setpaymentform] = useState({})
   const [currentUser, setcurrentUser] = useState({})
   const [payments, setpayments] = useState([])
+  const searchParams=useSearchParams()
   useEffect(() => {
     getData()
   }, [])
+  useEffect(() => {
+    if(searchParams.get("paymentdone")=="true"){
+      toast('Payment Done', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        });
+    }
+  }, [])
+  
   
   const handlechange=(e)=>{
     setpaymentform({...paymentform,[e.target.name]:e.target.value})
@@ -53,6 +74,19 @@ const PaymentPage = ({username}) => {
     }
   return (
     <>
+    <ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"/>
+{/* Same as */}
+<ToastContainer />
 <Script src="https://checkout.razorpay.com/v1/checkout.js"></Script>
 
 <div className="relative">
