@@ -28,7 +28,7 @@ const PaymentPage = ({username}) => {
       let a=await initiate(amount,username,paymentform)
       let orderId=a.id
             var options = {
-                "key": process.env.NEXT_PUBLIC_KEY_ID ,// Enter the Key ID generated from the Dashboard
+                "key": currentUser.razorpayID ,// Enter the Key ID generated from the Dashboard
                 "amount": amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
                 "currency": "INR",
                 "name": "Get me a chai", //your business name
@@ -56,8 +56,8 @@ const PaymentPage = ({username}) => {
 <Script src="https://checkout.razorpay.com/v1/checkout.js"></Script>
 
 <div className="relative">
-  <img className="relative w-full h-[340px]" src="https://pas-bp-wp-cdn.s3.amazonaws.com/bplans/content/uploads/2023/11/03154343/How-to-Write-Your-Business-Plan-Cover-Page-Template.png" alt=''></img>
-  <img className="absolute top-[266px] right-[46.5%] w-28 h-28 rounded-full" src="https://cdn.dribbble.com/userupload/11428818/file/original-e26099b859f5de5bb632ee44ec1a502d.jpg?resize=400x300&vertical=center" alt=''></img>
+  <img className="relative w-full h-[340px]" src={currentUser.coverpic} alt=''></img>
+  <img className="absolute top-[266px] right-[46.5%] w-28 h-28 rounded-full" src={currentUser.profilepic} alt=''></img>
   </div>
   <div className="flex flex-col justify-center gap-2 items-center mt-12">
 <div className="text-white text-base font-bold">@{username}</div>
@@ -68,6 +68,7 @@ const PaymentPage = ({username}) => {
     <div className=" bg-slate-900 rounded-lg w-1/3">
       <div className="text-center font-bold text-xl my-3">Supporters</div> 
       <ul>
+        {payments.length==0 && <li className="my-3 mx-2">No Payments yet</li>}
   {payments.map((p, i) => (
     <li key={i} className="flex items-center ml-2">
       <img width={30} src="avatar.png" alt="" />
@@ -85,7 +86,7 @@ const PaymentPage = ({username}) => {
         <input onChange={handlechange} value={paymentform.name} name="name" className="bg-slate-800 w-4/5 rounded-lg p-2 outline-none" type="text" placeholder="Enter Name"/>
         <input name="message" onChange={handlechange} value={paymentform.message} className="bg-slate-800 w-4/5 rounded-lg p-2  outline-none" type="text" placeholder="Enter Message"/>
         <input name="amount" onChange={handlechange} value={paymentform.amount}  className="bg-slate-800 w-4/5 rounded-lg p-2 outline-none" type="text" placeholder="Enter Amount"/>
-        <button type="button" className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-8 py-2 text-center me-2 mb-2" onClick={()=>pay(paymentform.amount*100)}>Pay</button>
+        <button type="button" className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-8 py-2 text-center me-2 mb-2 disabled:from-black"disabled={paymentform.name?.length<4} onClick={()=>pay(paymentform.amount*100)}>Pay</button>
       </div>
     </div>
   </div>
