@@ -8,6 +8,7 @@ import { useSearchParams } from 'next/navigation'
 import { ToastContainer,toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { Bounce } from 'react-toastify'
+import { useRouter } from 'next/navigation';
 
 const PaymentPage = ({username}) => {
   const {data:session}=useSession()
@@ -15,12 +16,13 @@ const PaymentPage = ({username}) => {
   const [currentUser, setcurrentUser] = useState({})
   const [payments, setpayments] = useState([])
   const searchParams=useSearchParams()
+  const router=useRouter()
   useEffect(() => {
     getData()
   }, [])
   useEffect(() => {
     if(searchParams.get("paymentdone")=="true"){
-      toast('Payment Done', {
+      toast('Thanks For Your Donation', {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -32,6 +34,7 @@ const PaymentPage = ({username}) => {
         transition: Bounce,
         });
     }
+    router.push(`/${username}`)
   }, [])
   
   
