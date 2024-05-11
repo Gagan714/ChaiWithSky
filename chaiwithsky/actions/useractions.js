@@ -6,8 +6,9 @@ import connectDB from "@/db/connectDB"
 
 export const initiate=async (amount,to_username,paymentform)=>{
     await connectDB()
-    let user=await User.findOne({username:to_user})
-    var instance = new Razorpay({key_id :user.razorpayID,key_secret:user.razorPaySecret})
+    let user=await User.findOne({username:to_username})
+    let secret=user.razorPaySecret
+    var instance = new Razorpay({key_id :user.razorpayID,key_secret:secret})
     let options={
         amount:Number.parseInt(amount),
         currency:"INR"
