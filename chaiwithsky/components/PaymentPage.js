@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation';
 
 const PaymentPage = ({username}) => {
   const {data:session}=useSession()
-  const [paymentform, setpaymentform] = useState({})
+  const [paymentform, setpaymentform] = useState({name:"",message:"",amount:""})
   const [currentUser, setcurrentUser] = useState({})
   const [payments, setpayments] = useState([])
   const searchParams=useSearchParams()
@@ -98,8 +98,8 @@ theme="light"/>
   </div>
   <div className="flex flex-col justify-center gap-2 items-center mt-12">
 <div className="text-white text-base font-bold">@{username}</div>
-<div className="text-slate-400 text-sm">Creating Animated Art for SkyNetworks</div>
-<div className="text-slate-400 text-sm">9718 members . 69 posts . $15,240/release</div>
+<div className="text-slate-400 text-sm">Lets help {currentUser.Name} get a chai</div>
+<div className="text-slate-400 text-sm">{payments.length} Payments . {currentUser.Name} has raised ₹{payments.reduce((a,b)=>a+b.amount,0)/100}</div>
   </div>
   <div className="flex w-full justify-center gap-5 items center my-4">
     <div className=" bg-slate-900 rounded-lg w-1/3">
@@ -123,7 +123,7 @@ theme="light"/>
         <input onChange={handlechange} value={paymentform.name} name="name" className="bg-slate-800 w-4/5 rounded-lg p-2 outline-none" type="text" placeholder="Enter Name"/>
         <input name="message" onChange={handlechange} value={paymentform.message} className="bg-slate-800 w-4/5 rounded-lg p-2  outline-none" type="text" placeholder="Enter Message"/>
         <input name="amount" onChange={handlechange} value={paymentform.amount}  className="bg-slate-800 w-4/5 rounded-lg p-2 outline-none" type="text" placeholder="Enter Amount"/>
-        <button type="button" className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-8 py-2 text-center me-2 mb-2 disabled:from-black"disabled={paymentform.name?.length<4} onClick={()=>pay(paymentform.amount*100)}>Pay</button>
+        <button type="button" className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-8 py-2 text-center me-2 mb-2 disabled:from-black"disabled={paymentform.name?.length<4 || paymentform.amount?.length<1} onClick={()=>pay(paymentform.amount*100)}>Pay</button>
       </div>
     </div>
   </div>
