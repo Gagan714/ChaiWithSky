@@ -40,7 +40,6 @@ const PaymentPage = ({username}) => {
   
   const handlechange=(e)=>{
     setpaymentform({...paymentform,[e.target.name]:e.target.value})
-    console.log(paymentform)
   }
   const getData=async (params)=>{
     let u= await fetchuser(username)

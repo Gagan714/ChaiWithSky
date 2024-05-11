@@ -53,7 +53,6 @@ export const authoptions= NextAuth({
   async session({ session, user, token }) {
     
     const dbuser = await User.findOne({email: session.user.email})
-     console.log(dbuser)
     session.user.name = dbuser.username
     return session
   }
