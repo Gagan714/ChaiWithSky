@@ -1,14 +1,14 @@
 "use client"
-import React,{useEffect, useState} from 'react'
-import Script from 'next/script'
-import { fetchpayment, initiate } from '@/actions/useractions'
-import { useSession } from 'next-auth/react'
-import { fetchuser } from '@/actions/useractions'
-import { useSearchParams } from 'next/navigation'
-import { ToastContainer,toast } from 'react-toastify'
+import React, { useEffect, useState } from 'react';
+import Script from 'next/script';
+import Image from 'next/image'; // Added
+import { fetchpayment, initiate, fetchuser } from '@/actions/useractions'; // Assuming these are functions defined elsewhere
+import { useSession } from 'next-auth/react';
+import { useSearchParams } from 'next/router'; // Changed to 'next/router'
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Bounce } from 'react-toastify'
-import { useRouter } from 'next/navigation';
+import { Bounce } from 'react-toastify';
+import { useRouter } from 'next/router';
 
 const PaymentPage = ({username}) => {
   const {data:session}=useSession()
@@ -19,7 +19,7 @@ const PaymentPage = ({username}) => {
   const router=useRouter()
   useEffect(() => {
     getData()
-  }, [])
+  }, [getData, searchParams, router, username]);
   useEffect(() => {
     if(searchParams.get("paymentdone")=="true"){
       toast('Thanks For Your Donation', {
@@ -35,13 +35,13 @@ const PaymentPage = ({username}) => {
         });
     }
     router.push(`/${username}`)
-  }, [])
+  }, [searchParams, router, username]);
   
   
   const handlechange=(e)=>{
     setpaymentform({...paymentform,[e.target.name]:e.target.value})
   }
-  const getData=async (params)=>{
+  const getData=async ()=>{
     let u= await fetchuser(username)
     setcurrentUser(u)
     let dbpayments=await fetchpayment(username)
@@ -92,8 +92,8 @@ theme="light"/>
 <Script src="https://checkout.razorpay.com/v1/checkout.js"></Script>
 
 <div className="relative">
-  <img className="relative w-full h-[340px]" src={currentUser.coverpic} alt=''></img>
-  <img className="absolute top-[79%] right-[38%] md:right-[46%] w-28 h-28 rounded-full" src={currentUser.profilepic} alt=''></img>
+  <Image className="relative w-full h-[340px]" src={currentUser.coverpic} alt=''/>
+  <Image className="absolute top-[79%] right-[38%] md:right-[46%] w-28 h-28 rounded-full" src={currentUser.profilepic} alt=''/>
   </div>
   <div className="flex flex-col justify-center gap-2 items-center mt-12">
 <div className="text-white text-base font-bold">@{username}</div>
@@ -109,7 +109,7 @@ theme="light"/>
     <li key={i} className="flex items-center ml-2">
       <img width={30} src="avatar.png" alt="" />
       <span className="my-3 mx-2">
-        {p.Name} donated <span className="font-bold">₹{p.amount/100}</span> with a message "{p.message}"
+        {p.Name} donated <span className="font-bold">₹{p.amount/100}</span> with a message {p.message}
       </span>
     </li>
   ))}
