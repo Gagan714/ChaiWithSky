@@ -5,8 +5,8 @@ import NextAuth from 'next-auth'
 // import EmailProvider from 'next-auth/providers/email'
 import GitHubProvider from "next-auth/providers/github";
 import mongoose from 'mongoose';
-import User from '@/models/User.js'
-import Payment from '@/models/Payment.js'
+import User from '@/models/User';
+import Payment from '@/models/Payment';
 import connectDB from '@/db/connectDB';
 
 export const authoptions= NextAuth({
