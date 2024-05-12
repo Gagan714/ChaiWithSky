@@ -18,6 +18,11 @@ const PaymentPage = ({username}) => {
   const searchParams=useSearchParams()
   const router=useRouter()
   useEffect(() => {
+    if(!session){
+      router.push('/login')
+    }
+  }, [session])
+  useEffect(() => {
     getData()
     
   }, [])
