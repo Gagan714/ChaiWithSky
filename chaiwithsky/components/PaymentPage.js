@@ -18,6 +18,11 @@ const PaymentPage = ({username}) => {
   const searchParams=useSearchParams()
   const router=useRouter()
   useEffect(() => {
+    if(!session){
+      router.push('/login')
+    }
+  }, [session])
+  useEffect(() => {
     getData()
   }, [])
   useEffect(() => {
@@ -93,15 +98,15 @@ theme="light"/>
 
 <div className="relative">
   <img className="relative w-full h-[340px]" src={currentUser.coverpic} alt=''></img>
-  <img className="absolute top-[266px] right-[46.5%] w-28 h-28 rounded-full" src={currentUser.profilepic} alt=''></img>
+  <img className="absolute top-[79%] right-[38%] md:right-[46%] w-28 h-28 rounded-full" src={currentUser.profilepic} alt=''></img>
   </div>
   <div className="flex flex-col justify-center gap-2 items-center mt-12">
 <div className="text-white text-base font-bold">@{username}</div>
 <div className="text-slate-400 text-sm">Lets help {currentUser.Name} get a chai</div>
 <div className="text-slate-400 text-sm">{payments.length} Payments . {currentUser.Name} has raised ₹{payments.reduce((a,b)=>a+b.amount,0)/100}</div>
   </div>
-  <div className="flex w-full justify-center gap-5 items center my-4">
-    <div className=" bg-slate-900 rounded-lg w-1/3">
+  <div className="flex flex-col md:flex-row w-full justify-center gap-5 items center my-4">
+    <div className=" bg-slate-900 mx-auto rounded-lg w-3/4 md:w-1/3">
       <div className="text-center font-bold text-xl my-3">Supporters</div> 
       <ul>
         {payments.length==0 && <li className="my-3 mx-2">No Payments yet</li>}
@@ -116,7 +121,7 @@ theme="light"/>
 </ul>
 
     </div>
-    <div className=" bg-slate-900 rounded-lg w-1/3">
+    <div className=" bg-slate-900 rounded-lg mx-auto w-3/4 md:w-1/3">
       <div className="text-center font-bold text-xl mt-3 mb-5">Make a payment</div>
       <div className="flex flex-col items-center gap-2">
         <input onChange={handlechange} value={paymentform.name} name="name" className="bg-slate-800 w-4/5 rounded-lg p-2 outline-none" type="text" placeholder="Enter Name"/>
