@@ -17,14 +17,9 @@ const PaymentPage = ({username}) => {
   const [payments, setpayments] = useState([])
   const searchParams=useSearchParams()
   const router=useRouter()
-  useEffect(() => {
-    if(!session){
-      router.push('/login')
-    }
-  }, [session])
+  
   useEffect(() => {
     getData()
-    
   }, [])
   useEffect(() => {
     if(searchParams.get("paymentdone")=="true"){
