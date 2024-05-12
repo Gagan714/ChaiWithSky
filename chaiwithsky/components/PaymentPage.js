@@ -19,6 +19,7 @@ const PaymentPage = ({username}) => {
   const router=useRouter()
   useEffect(() => {
     getData()
+    
   }, [])
   useEffect(() => {
     if(searchParams.get("paymentdone")=="true"){
