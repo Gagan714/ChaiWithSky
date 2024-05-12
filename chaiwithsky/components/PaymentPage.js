@@ -110,7 +110,7 @@ theme="light"/>
     <li key={i} className="flex items-center ml-2">
       <img width={30} src="avatar.png" alt="" />
       <span className="my-3 mx-2">
-        {p.Name} donated <span className="font-bold">₹{p.amount/100}</span> with a message "{p.message}"
+        {p.Name} donated <span className="font-bold">₹{p.amount/100}</span> with a message {p.message}
       </span>
     </li>
   ))}
