@@ -21,6 +21,7 @@ const PaymentPage = ({username}) => {
   useEffect(() => {
     getData()
   }, [])
+  
   useEffect(() => {
     if(searchParams.get("paymentdone")=="true"){
       toast('Thanks For Your Donation', {
